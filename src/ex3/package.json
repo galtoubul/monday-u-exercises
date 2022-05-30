@@ -1,0 +1,16 @@
+{
+  "name": "cli-todo-app",
+  "version": "1.0.0",
+  "description": "CLI TODO APP",
+  "type": "module",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "galtoubul",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "commander": "^9.3.0"
+  }
+}
