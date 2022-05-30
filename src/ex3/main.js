@@ -1,16 +1,24 @@
 import fs from "fs";
 import { Command } from "commander";
 import axios from "axios";
+import inquirer from "inquirer";
 
 const tasksFilePath = "./tasks.json";
 const ERR = -1;
+let interactiveMode = false;
 
 init();
 const program = new Command();
 
-program.name("node main.js").usage("[options] command");
-const appDescription = "TIME TO GRIND\nThe best cli todo app since 27/5/2022"
-program.description(appDescription).version("1.0.0");
+program
+  .name("node main.js")
+  .usage("[option] [command]")
+  .description("TIME TO GRIND - The best cli todo app since 27/5/2022")
+  .version("1.0.0")
+  .option("-i --interactive", "Interactive mode")
+  .action((options) => {
+    if (options.interactive) runInteractiveMode();
+  });
 
 program.configureHelp();
 
@@ -19,7 +27,8 @@ program
   .description("Adds a new task")
   .argument(
     "<string>",
-    'Task\'s description or a pokemon id.\nFor comma separated pokemon ids please put quates around ("<pokemon id>, <pokemon id>[,<pokemon id>]")'
+    `Task\'s description or a pokemon id.\n
+    For comma separated pokemon ids please put quates around ("<pokemon id>, <pokemon id>[,<pokemon id>]")`
   )
   .action((task) => {
     addTask(task);
@@ -40,6 +49,13 @@ program
     deleteTask(index);
   });
 
+program
+  .command("clear-all")
+  .description("Deletes all tasks")
+  .action(() => {
+    clearAllTasks();
+  });
+
 program.parse();
 
 async function addTask(task) {
@@ -56,19 +72,39 @@ async function addTask(task) {
       data.tasks.push(task);
     }
     fs.writeFileSync(tasksFilePath, JSON.stringify(data));
-    console.log(successMsg);
+
+    if (interactiveMode) {
+      process.stdout.write(`${successMsg}\n`, initialMenu);
+    } else {
+      console.log(successMsg);
+    }
   }
 }
 
-function deleteTask(index) {
+function addTaskMenu() {
+  inquirer
+    .prompt([
+      {
+        name: "task_to_add",
+        message:
+          "Please insert the new task (or the id of the pokemon to catch)",
+      },
+    ])
+    .then((answers) => {
+      addTask(answers.task_to_add);
+    });
+}
+
+function deleteTask(index, to_print = true) {
   const data = JSON.parse(fs.readFileSync(tasksFilePath));
   data.tasks.splice(index, 1);
   fs.writeFileSync(tasksFilePath, JSON.stringify(data));
-  console.log("Todo was deleted successfully");
+  if (to_print) console.log("Todo was deleted successfully");
 }
 
-function getTasks() {
+function getTasks(to_print = true) {
   const data = JSON.parse(fs.readFileSync(tasksFilePath));
+  if (!to_print) return data.tasks;
   if (!data.tasks.length) {
     console.log("Done and Done");
   } else {
@@ -76,12 +112,21 @@ function getTasks() {
   }
 }
 
+function clearAllTasks() {
+  createEmptyTasksList();
+  console.log("Cleared all tasks successfully");
+}
+
+function createEmptyTasksList() {
+  const content = JSON.stringify({ tasks: [] });
+  fs.writeFileSync(tasksFilePath, content);
+}
+
 // Create an empty tasks list if the file doesn't exists yet
 function init() {
   const data = fs.readFileSync(tasksFilePath, { flag: "a+" });
   if (!data.length) {
-    const content = JSON.stringify({ tasks: [] });
-    fs.writeFileSync(tasksFilePath, content);
+    createEmptyTasksList();
   }
 }
 
@@ -121,4 +166,77 @@ function parsePokeApiResults(results) {
     );
   }
   return todos;
+}
+
+function deleteTasks(tasksToDelete) {
+  const tasks = getTasks(false);
+  tasksToDelete.forEach((task) => {
+    deleteTask(tasks.indexOf(task), false);
+  });
+  if (tasksToDelete.length) {
+    console.log(`${tasksToDelete.length} tasks were deleted successfully`);
+  }
+}
+
+function deleteTaskMenu() {
+  const choices = getTasks(false);
+  if (!choices.length) {
+    console.log("Currently There aren't any tasks");
+    initialMenu();
+  }
+  inquirer
+    .prompt([
+      {
+        name: "tasks_to_delete",
+        type: "checkbox",
+        message: "Choose the tasks you want to delete",
+        choices,
+      },
+    ])
+    .then((answers) => {
+      deleteTasks(answers.tasks_to_delete);
+    });
+}
+
+function initialMenu() {
+  inquirer
+    .prompt([
+      {
+        name: "initial_menu",
+        type: "list",
+        message: "What would like to do?",
+        choices: [
+          "Add a new task",
+          "Show all tasks",
+          "Delete a task",
+          "Clear all tasks",
+          "quit",
+        ],
+      },
+    ])
+    .then((answers) => {
+      switch (answers.initial_menu) {
+        case "Add a new task":
+          addTaskMenu();
+          break;
+        case "Show all tasks":
+          getTasks();
+          initialMenu();
+          break;
+        case "Delete a task":
+          deleteTaskMenu();
+          break;
+        case "Clear all tasks":
+          clearAllTasks();
+          initialMenu();
+          break;
+        case "quit":
+          return;
+      }
+    });
+}
+
+function runInteractiveMode() {
+  interactiveMode = true;
+  initialMenu();
 }
