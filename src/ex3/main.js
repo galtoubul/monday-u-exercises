@@ -2,10 +2,16 @@ import fs from "fs";
 import { Command } from "commander";
 import axios from "axios";
 import inquirer from "inquirer";
+import Image from "ascii-art-image";
+import gradient from "gradient-string";
+import figlet from "figlet";
+import chalkAnimation from "chalk-animation";
+import chalk from "chalk";
 
 const tasksFilePath = "./tasks.json";
 const ERR = -1;
 let interactiveMode = false;
+const successfullyStr = chalk.green("successfully")
 
 init();
 const program = new Command();
@@ -58,25 +64,47 @@ program
 
 program.parse();
 
+async function printPokemons(pokemonsPhotos) {
+  const msg =
+    "New pokemon" +
+    (Object.keys(pokemonsPhotos).length > 1 ? "s" : "") +
+    " to catch:";
+  console.log(chalk.bgCyan(msg));
+
+  for (let pokemonName in pokemonsPhotos) {
+    new Image({
+      filepath: pokemonsPhotos[pokemonName],
+      alphabet: "variant4",
+    }).write(function (err, rendered) {
+      figlet(pokemonName, (err, data) => {
+        console.log(gradient.pastel.multiline(data) + "\n");
+        console.log(rendered);
+      });
+    });
+  }
+}
+
 async function addTask(task) {
   const data = JSON.parse(fs.readFileSync(tasksFilePath));
   task = /^(\d+\s*,\s*)*\s*\d+\s*$/.test(task) ? await getPokemon(task) : task;
-  let successMsg = "New todo was added successfully";
   if (task !== ERR) {
+    let successMsg = `New todo was added ${successfullyStr}`;
     if (typeof task === "object") {
-      data.tasks = data.tasks.concat(task);
-      if (task.length > 1) {
-        successMsg = `${task.length} new todos were added successfully`;
+      data.tasks = data.tasks.concat(task.todos);
+      if (Object.keys(task.pokemonsPhotos).length) {
+        successMsg = "";
+        await printPokemons(task.pokemonsPhotos);
       }
     } else {
       data.tasks.push(task);
     }
     fs.writeFileSync(tasksFilePath, JSON.stringify(data));
-
-    if (interactiveMode) {
-      process.stdout.write(`${successMsg}\n`, initialMenu);
-    } else {
-      console.log(successMsg);
+    if (successMsg.length) {
+      if (interactiveMode) {
+        process.stdout.write(`${successMsg}\n`, initialMenu);
+      } else {
+        console.log(successMsg);
+      }
     }
   }
 }
@@ -99,14 +127,17 @@ function deleteTask(index, to_print = true) {
   const data = JSON.parse(fs.readFileSync(tasksFilePath));
   data.tasks.splice(index, 1);
   fs.writeFileSync(tasksFilePath, JSON.stringify(data));
-  if (to_print) console.log("Todo was deleted successfully");
+  if (to_print) console.log(`Todo was deleted ${successfullyStr}`);
 }
 
 function getTasks(to_print = true) {
   const data = JSON.parse(fs.readFileSync(tasksFilePath));
   if (!to_print) return data.tasks;
   if (!data.tasks.length) {
-    console.log("Done and Done");
+    const rainbow = chalkAnimation.rainbow("Done and Done");
+    setTimeout(() => {
+      rainbow.stop();
+    }, 2000);
   } else {
     console.log(data.tasks.join("\n"));
   }
@@ -114,7 +145,7 @@ function getTasks(to_print = true) {
 
 function clearAllTasks() {
   createEmptyTasksList();
-  console.log("Cleared all tasks successfully");
+  console.log(`Cleared all tasks ${successfullyStr}`);
 }
 
 function createEmptyTasksList() {
@@ -148,11 +179,14 @@ async function getPokemon(pokemonIds) {
 function parsePokeApiResults(results) {
   const errorPokemonIds = [];
   const todos = [];
+  let pokemonsPhotos = {};
   for (let res of results) {
     if (res.status === "rejected") {
       const pokeIdInd = res.reason.request.path.lastIndexOf("/") + 1;
       errorPokemonIds.push(res.reason.request.path.slice(pokeIdInd));
     } else {
+      pokemonsPhotos[res.value.data.name] =
+        res.value.data.sprites.front_default;
       todos.push(`Catch ${res.value.data.name}`);
     }
   }
@@ -165,7 +199,7 @@ function parsePokeApiResults(results) {
       )}`
     );
   }
-  return todos;
+  return { todos, pokemonsPhotos };
 }
 
 function deleteTasks(tasksToDelete) {
@@ -174,14 +208,14 @@ function deleteTasks(tasksToDelete) {
     deleteTask(tasks.indexOf(task), false);
   });
   if (tasksToDelete.length) {
-    console.log(`${tasksToDelete.length} tasks were deleted successfully`);
+    console.log(`${tasksToDelete.length} tasks were deleted ${successfullyStr}`);
   }
 }
 
 function deleteTaskMenu() {
   const choices = getTasks(false);
   if (!choices.length) {
-    console.log("Currently There aren't any tasks");
+    console.log(chalk.red("Currently There aren't any tasks"));
     initialMenu();
   }
   inquirer
