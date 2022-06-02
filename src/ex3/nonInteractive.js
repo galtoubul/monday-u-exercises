@@ -28,15 +28,15 @@ function isValidIndToDel(ind, tasksListLength) {
 export default function initProgram() {
   const program = new Command();
   program
-    .name("node main.js")
+    .name("npx time-to-grind")
     .usage("[option] [command]")
     .description(
       `TIME TO GRIND 💪 The best cli todo app since 2/6/2022\nAsh Ketchum: "Couldn't ask for something better... Now I never forget to catch em all⚡"`
     )
     .version("1.0.0")
-    .option("-i --interactive", "Interactive mode")
-    .action((options) => {
-      if (options.interactive) runInteractiveMode();
+    .action(() => {
+      // Default running mode is interactive
+      runInteractiveMode();
     });
 
   program

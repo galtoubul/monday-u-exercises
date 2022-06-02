@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import fs from "fs";
 import { createEmptyTasksList } from "./todoListFuncs.js";
 import initProgram from "./nonInteractive.js";

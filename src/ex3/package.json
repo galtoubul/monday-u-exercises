@@ -1,17 +1,18 @@
 {
-  "name": "cli-todo-app",
-  "version": "1.0.0",
+  "name": "time-to-grind",
+  "version": "1.0.2",
   "description": "CLI TODO APP",
   "type": "module",
-  "main": "main.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "time-to-grind": "index.js"
   },
   "author": "galtoubul",
   "license": "ISC",
   "dependencies": {
-    "ascii-art": "^2.8.5",
-    "ascii-art-ansi": "^1.4.1",
     "ascii-art-image": "^1.4.0",
     "axios": "^0.27.2",
     "caller-id": "^0.1.0",
@@ -19,7 +20,6 @@
     "commander": "^9.3.0",
     "figlet": "^1.5.2",
     "gradient-string": "^2.0.1",
-    "image-to-ascii": "^2.3.1",
     "inquirer": "^8.2.4"
   }
 }
