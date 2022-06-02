@@ -28,13 +28,13 @@ function parsePokeApiResults(results) {
   const todos = [];
   let pokemonsPhotos = {};
   for (let res of results) {
-    if (res.status === "rejected") {
-      const pokeIdInd = res.reason.request.path.lastIndexOf("/") + 1;
-      errorPokemonIds.push(res.reason.request.path.slice(pokeIdInd));
+    if (res?.status === "rejected") {
+      const pokeIdInd = res?.reason?.request?.path.lastIndexOf("/") + 1;
+      errorPokemonIds.push(res?.reason?.request?.path.slice(pokeIdInd));
     } else {
-      pokemonsPhotos[res.value.data.name] =
-        res.value.data.sprites.front_default;
-      todos.push(`Catch ${res.value.data.name}`);
+      pokemonsPhotos[res?.value?.data?.name] =
+        res?.value?.data?.sprites?.front_default;
+      todos.push(`Catch ${res?.value?.data?.name}`);
     }
   }
   if (errorPokemonIds.length === 1) {

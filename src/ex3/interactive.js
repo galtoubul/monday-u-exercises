@@ -1,5 +1,5 @@
 import inquirer from "inquirer";
-import chalk from "chalk";
+import { printNoTasks } from "./utils.js";
 import {
   addTask,
   deleteTasks,
@@ -26,7 +26,7 @@ function addTaskMenu() {
 function deleteTaskMenu() {
   const choices = getTasks(false);
   if (!choices.length) {
-    console.log(chalk.red("Currently There aren't any tasks"));
+    printNoTasks();
     initialMenu();
   } else {
     inquirer

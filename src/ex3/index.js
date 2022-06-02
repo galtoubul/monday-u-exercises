@@ -5,11 +5,12 @@ import { tasksFilePath } from "./config.js";
 
 init();
 
-// Create an empty tasks list if the file doesn't exists yet
 function init() {
-  initProgram();
+  // Create an empty tasks list if the file doesn't exists yet
   const data = fs.readFileSync(tasksFilePath, { flag: "a+" });
   if (!data.length) {
     createEmptyTasksList();
   }
+
+  initProgram();
 }
