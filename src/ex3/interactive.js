@@ -16,10 +16,9 @@ function addTaskMenu() {
           "Please insert the new task (or the id of the pokemon to catch)",
       },
     ])
-    .then((answers) => {
-      addTask(answers.task_to_add).then(() => {
-        initialMenu();
-      });
+    .then(async (answers) => {
+      await addTask(answers.task_to_add);
+      initialMenu();
     });
 }
 
