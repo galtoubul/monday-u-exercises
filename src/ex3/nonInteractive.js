@@ -1,6 +1,6 @@
 import { Command } from "commander";
 import chalk from "chalk";
-import runInteractiveMode from "./interactive.js";
+import runInteractiveMode from "./interactive/interactive.js";
 import { printNoTasks } from "./utils.js";
 import {
   addTask,

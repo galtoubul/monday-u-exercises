@@ -3,7 +3,7 @@ import chalkAnimation from "chalk-animation";
 import callerId from "caller-id";
 import { getPokemon, printPokemons, ERR } from "./pokemons.js";
 import { successfullyStr, tasksFilePath } from "./config.js";
-import initialMenu from "./interactive.js";
+import initialMenu from "./interactive/interactive.js";
 import { isTasksListEmpty, printNoTasks } from "./utils.js";
 
 export { addTask, deleteTasks, getTasks, clearAllTasks, createEmptyTasksList };

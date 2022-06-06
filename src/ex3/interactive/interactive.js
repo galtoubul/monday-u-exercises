@@ -1,11 +1,12 @@
 import inquirer from "inquirer";
-import { printNoTasks } from "./utils.js";
+import { printNoTasks } from "../utils.js";
+import { initialMenuOptions } from "./menus.js";
 import {
   addTask,
   deleteTasks,
   getTasks,
   clearAllTasks,
-} from "./todoListFuncs.js";
+} from "../todoListFuncs.js";
 
 function addTaskMenu() {
   inquirer
@@ -37,47 +38,43 @@ function deleteTaskMenu() {
           choices,
         },
       ])
-      .then((answers) => {
-        deleteTasks(
-          answers.tasks_to_delete.map((task) => choices.indexOf(task))
+      .then(({ tasks_to_delete }) => {
+        const inidicesOfTasksToDelete = tasks_to_delete.map((task) =>
+          choices.indexOf(task)
         );
+        deleteTasks(inidicesOfTasksToDelete);
         initialMenu();
       });
   }
 }
 
 export default function initialMenu() {
+  const { addTask, showAll, deleteTask, clearAll, quit } = initialMenuOptions;
   inquirer
     .prompt([
       {
         name: "initial_menu",
         type: "list",
         message: "What would like to do?",
-        choices: [
-          "Add a new task",
-          "Show all tasks",
-          "Delete a task",
-          "Clear all tasks",
-          "quit",
-        ],
+        choices: [addTask, showAll, deleteTask, clearAll, quit],
       },
     ])
     .then((answers) => {
       switch (answers.initial_menu) {
-        case "Add a new task":
+        case addTask:
           addTaskMenu();
           break;
-        case "Show all tasks":
+        case showAll:
           getTasks(true, true);
           break;
-        case "Delete a task":
+        case deleteTask:
           deleteTaskMenu();
           break;
-        case "Clear all tasks":
+        case clearAll:
           clearAllTasks();
           initialMenu();
           break;
-        case "quit":
+        case quit:
           return;
       }
     });
