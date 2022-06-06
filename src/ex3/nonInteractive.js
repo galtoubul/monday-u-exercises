@@ -43,17 +43,13 @@ export default function initProgram() {
     .command("add")
     .description("Add a new task")
     .argument("<string>", "Task's description.")
-    .action((task) => {
-      addTask(task);
-    });
+    .action(addTask);
 
   program
     .command("add")
     .description("Add pokemons to be catched")
     .argument("<int[,int...]>", "A pokemon id or comma separated pokemon ids.")
-    .action((task) => {
-      addTask(task);
-    });
+    .action(addTask);
 
   program
     .command("get")
@@ -78,9 +74,7 @@ export default function initProgram() {
   program
     .command("clear-all")
     .description("Delete all tasks")
-    .action(() => {
-      clearAllTasks();
-    });
+    .action(clearAllTasks);
 
   program.parse();
 }

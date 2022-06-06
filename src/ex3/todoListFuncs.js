@@ -1,23 +1,24 @@
 import fs from "fs";
-import chalkAnimation from "chalk-animation";
 import callerId from "caller-id";
-import { getPokemon, printPokemons, ERR } from "./pokemons.js";
+import {
+  getPokemon,
+  printPokemons,
+  FAILED_TO_FETCH_POKEMON,
+} from "./pokemons.js";
 import { successfullyStr, tasksFilePath } from "./config.js";
 import initialMenu from "./interactive/interactive.js";
-import { isTasksListEmpty, printNoTasks } from "./utils.js";
+import { isTasksListEmpty, printNoTasks, showDoneAnimation } from "./utils.js";
 
-export { addTask, deleteTasks, getTasks, clearAllTasks, createEmptyTasksList };
-
-const PRINT_POKES = 100;
+const SUCCEEDED_TO_FETCH_POKEMON = 100;
 
 async function addPokemonTask(task, data) {
   task = await getPokemon(task);
-  if (task === ERR) return ERR;
+  if (task === FAILED_TO_FETCH_POKEMON) return FAILED_TO_FETCH_POKEMON;
 
   data.tasks = data.tasks.concat(task.todos);
   if (Object.keys(task.pokemonsPhotos).length) {
     await printPokemons(task.pokemonsPhotos);
-    return PRINT_POKES;
+    return SUCCEEDED_TO_FETCH_POKEMON;
   }
 }
 
@@ -28,7 +29,8 @@ async function addTask(task) {
   const isCsvNums = /^(\d+\s*,\s*)*\s*\d+\s*$/.test(task);
   if (isCsvNums) {
     const rc = await addPokemonTask(task, data);
-    if (rc === PRINT_POKES) successMsg = "";
+    // Don't print success message if succeeded to fetch pokemon since the pokemons will be printed
+    if (rc === SUCCEEDED_TO_FETCH_POKEMON) successMsg = "";
   } else {
     data.tasks.push(task);
   }
@@ -65,14 +67,6 @@ function deleteTasks(indeces) {
   }
 }
 
-function showDoneAnimation(interactive) {
-  const rainbow = chalkAnimation.rainbow("Done and Done");
-  setTimeout(() => {
-    rainbow.stop();
-    if (interactive) initialMenu();
-  }, 1000);
-}
-
 function getTasks(to_print = true, interactive = false) {
   const data = JSON.parse(fs.readFileSync(tasksFilePath));
   if (!to_print) return data.tasks;
@@ -97,3 +91,5 @@ function createEmptyTasksList() {
   const content = JSON.stringify({ tasks: [] });
   fs.writeFileSync(tasksFilePath, content);
 }
+
+export { addTask, deleteTasks, getTasks, clearAllTasks, createEmptyTasksList };

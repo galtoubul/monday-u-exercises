@@ -4,9 +4,7 @@ import figlet from "figlet";
 import axios from "axios";
 import chalk from "chalk";
 
-const ERR = -1;
-
-export { getPokemon, printPokemons, ERR };
+const FAILED_TO_FETCH_POKEMON = -1;
 
 async function getPokemon(pokemonIds) {
   pokemonIds = pokemonIds.replaceAll(" ", "").split(",");
@@ -19,7 +17,7 @@ async function getPokemon(pokemonIds) {
     return parsePokeApiResults(results);
   } catch (err) {
     console.error(`The todo wasn't added. An error occured: ${err}`);
-    return ERR;
+    return FAILED_TO_FETCH_POKEMON;
   }
 }
 
@@ -55,11 +53,15 @@ function printPokemon(pokemonName, pokemonPhoto) {
       filepath: pokemonPhoto,
       alphabet: "variant4",
     }).write(function (err, rendered) {
-      figlet(pokemonName, (err, data) => {
-        console.log(gradient.pastel.multiline(data) + "\n");
-        console.log(rendered);
-        resolve();
-      });
+      if (!err) {
+        figlet(pokemonName, (err, data) => {
+          if (!err) {
+            console.log(gradient.pastel.multiline(data) + "\n");
+            console.log(rendered);
+            resolve();
+          }
+        });
+      }
     });
   });
 }
@@ -76,3 +78,5 @@ async function printPokemons(pokemonsPhotos) {
   );
   await Promise.all(promises);
 }
+
+export { getPokemon, printPokemons, FAILED_TO_FETCH_POKEMON };
