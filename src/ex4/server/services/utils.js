@@ -4,17 +4,6 @@ import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const tasksFile = join(__dirname, "..", "data", "tasks.json");
-const newTasksFileContent = JSON.stringify({ tasks: [] });
-
-async function getTasks() {
-  return await readTasksFile();
-}
-
-async function deleteTask(id) {
-  const data = await readTasksFile();
-  const newData = data.tasks.filter((task) => task.id !== id);
-  await writeTasksFile(newData);
-}
 
 async function readTasksFile() {
   try {
@@ -33,9 +22,14 @@ async function writeTasksFile(content) {
   }
 }
 
-function createTasksFile() {
-  const content = newTasksFileContent;
-  fs.writeFileSync(tasksFilePath, content);
+function calcTasksLeft(tasks) {
+  return !tasks.length
+    ? 0
+    : tasks.reduce(
+        (currTasksLeft, task) =>
+          !task.checked ? currTasksLeft + 1 : currTasksLeft,
+        0
+      );
 }
 
-export { getTasks, deleteTask };
+export { readTasksFile, writeTasksFile, calcTasksLeft };

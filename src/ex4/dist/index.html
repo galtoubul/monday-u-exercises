@@ -35,12 +35,16 @@
         </div>
 
         <div class="todo-footer-container hide">
-          <p class="tasks-left"></p>
+          <p >
+            Keep Grinding! You got <span class="tasks-left-number"></span> to go
+          </p>
           <button class="clear-all" type="button">Clear All</button>
         </div>
       </div>
     </body>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="clients/taskManagerClient.js"></script>
-    <script src="main.js"></script>
+    <script src="models/clients/taskManagerClient.js"></script>
+    <script src="views/tasksView.js"></script>
+    <script src="views/taskTemplate.js"></script>
+    <script src="controllers/tasksController.js"></script>
 </html>
