@@ -44,6 +44,11 @@ class TasksView {
     }
   }
 
+  onClearAll() {
+    this.tasksList.innerHTML = "";
+    this.showFinishedAll();
+  }
+
   // Add task will be clickable only for a non empty/"only spaces" task
   onTaskInput() {
     if (!/^\s*$/.test(this.addTaskInput.value)) {

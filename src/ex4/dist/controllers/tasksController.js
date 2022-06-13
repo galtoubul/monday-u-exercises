@@ -17,6 +17,8 @@ class TasksController {
       await this.addTask();
     });
     document.addEventListener("keypress", (event) => this.onKeyPress(event));
+    const clearAllBtn = document.querySelector(".clear-all");
+    clearAllBtn.addEventListener("click", () => this.clearAll());
 
     await this.getTasks();
   }
@@ -40,6 +42,11 @@ class TasksController {
   async deleteTask(taskContainer, taskId) {
     const res = await this.taskManagerClient.deleteTask(taskId);
     this.tasksView.onDeleteTask(taskContainer, res.tasksLeft);
+  }
+
+  async clearAll() {
+    await this.taskManagerClient.clearAll()
+    this.tasksView.onClearAll();
   }
 
   isValidTask(task) {

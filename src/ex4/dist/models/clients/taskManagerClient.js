@@ -32,4 +32,13 @@ class TaskManagerClient {
       console.error(`An error occured: ${err}`);
     }
   }
+
+  async clearAll() {
+    try {
+      const res = await axios.delete(`${this.endPoint}/all`);
+      return res.data;
+    } catch (err) {
+      console.error(`An error occured: ${err}`);
+    }
+  }
 }
