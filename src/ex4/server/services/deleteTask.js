@@ -10,4 +10,10 @@ async function deleteTask(id) {
   return { deletedTask, tasksLeft };
 }
 
-export { deleteTask };
+async function clearAll(id) {
+  const deletedTasks = await readTasksFile();
+  await writeTasksFile([]);
+  return { deletedTasks, tasksLeft: 0 };
+}
+
+export { deleteTask, clearAll };

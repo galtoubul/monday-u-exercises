@@ -45,7 +45,7 @@ class TasksController {
   }
 
   async clearAll() {
-    await this.taskManagerClient.clearAll()
+    await this.taskManagerClient.clearAll();
     this.tasksView.onClearAll();
   }
 
