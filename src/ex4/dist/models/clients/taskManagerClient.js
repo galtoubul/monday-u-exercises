@@ -1,4 +1,3 @@
-// Create an ItemClient class here. This is what makes requests to your express server (your own custom API!)
 class TaskManagerClient {
   constructor() {
     this.endPoint = "http://localhost:8000/todo";
@@ -36,6 +35,16 @@ class TaskManagerClient {
   async clearAll() {
     try {
       const res = await axios.delete(`${this.endPoint}/all`);
+      return res.data;
+    } catch (err) {
+      console.error(`An error occured: ${err}`);
+    }
+  }
+
+  async checkUncheckTask(taskId, newCheckedStatus) {
+    try {
+      const data = { checked: newCheckedStatus };
+      const res = await axios.patch(`${this.endPoint}/${taskId}`, { data });
       return res.data;
     } catch (err) {
       console.error(`An error occured: ${err}`);

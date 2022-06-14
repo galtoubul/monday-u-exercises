@@ -49,6 +49,11 @@ class TasksView {
     this.showFinishedAll();
   }
 
+  onCheckUncheckTask(taskTxtElem, tasksLeft) {
+    taskTxtElem.classList.toggle("done-task-txt");
+    this.updateTasksLeft(tasksLeft);
+  }
+
   // Add task will be clickable only for a non empty/"only spaces" task
   onTaskInput() {
     if (!/^\s*$/.test(this.addTaskInput.value)) {

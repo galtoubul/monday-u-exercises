@@ -2,8 +2,11 @@ const createTask = (taskId, taskText, isTaskChecked, callbacks) => {
   const taskContainer = document.createElement("div");
   taskContainer.classList.add("task-container");
 
-  taskContainer.appendChild(createCheckbox(taskId, isTaskChecked));
-  taskContainer.appendChild(createTaskText(taskText));
+  const { text, textContainer } = createTaskText(taskText);
+  taskContainer.appendChild(
+    createCheckbox(taskId, isTaskChecked, callbacks.checkUncheckTask, text)
+  );
+  taskContainer.appendChild(textContainer);
   taskContainer.appendChild(
     createDeleteButton(taskContainer, taskId, callbacks.deleteTask)
   );
@@ -11,7 +14,7 @@ const createTask = (taskId, taskText, isTaskChecked, callbacks) => {
   return taskContainer;
 };
 
-const createCheckbox = (taskId, isTaskChecked) => {
+const createCheckbox = (taskId, isTaskChecked, checkUncheckTask, text) => {
   const checkboxContainer = document.createElement("div");
   checkboxContainer.classList.add("task-checkbox");
 
@@ -19,6 +22,10 @@ const createCheckbox = (taskId, isTaskChecked) => {
   input.setAttribute("type", "checkbox");
   input.setAttribute("id", taskId);
   input.checked = isTaskChecked;
+  input.addEventListener("click", (_) => {
+    const newCheckedStatus = input.checked;
+    checkUncheckTask(text, taskId, newCheckedStatus);
+  });
 
   const label = document.createElement("label");
   label.setAttribute("for", taskId);
@@ -37,7 +44,7 @@ const createTaskText = (taskText) => {
   text.innerHTML = taskText;
 
   textContainer.appendChild(text);
-  return textContainer;
+  return { text, textContainer };
 };
 
 const createDeleteButton = (taskContainer, taskId, deleteTask) => {

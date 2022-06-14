@@ -4,6 +4,8 @@ class TasksController {
     this.tasksView = new TasksView({
       deleteTask: (taskContainer, taskId) =>
         this.deleteTask(taskContainer, taskId),
+      checkUncheckTask: (taskTxtElem, taskId, newCheckedStatus) =>
+        this.checkUncheckTask(taskTxtElem, taskId, newCheckedStatus),
     });
     this.addTaskInput = document.querySelector(".add-task-input");
     this.addTaskBtn = document.querySelector(".add-task-btn");
@@ -47,6 +49,14 @@ class TasksController {
   async clearAll() {
     await this.taskManagerClient.clearAll();
     this.tasksView.onClearAll();
+  }
+
+  async checkUncheckTask(taskTxtElem, taskId, newCheckedStatus) {
+    const { tasksLeft } = await this.taskManagerClient.checkUncheckTask(
+      taskId,
+      newCheckedStatus
+    );
+    this.tasksView.onCheckUncheckTask(taskTxtElem, tasksLeft);
   }
 
   isValidTask(task) {

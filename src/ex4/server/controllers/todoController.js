@@ -22,7 +22,7 @@ async function deleteTask(req, res) {
 }
 
 async function clearAll(req, res) {
-  const { deletedTasks, tasksLeft } = await clearAllService(taskId);
+  const { deletedTasks, tasksLeft } = await clearAllService();
   res.status(200).json({ deletedTasks, tasksLeft });
 }
 
