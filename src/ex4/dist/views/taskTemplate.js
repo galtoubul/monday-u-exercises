@@ -2,7 +2,7 @@ const createTask = (taskId, taskText, isTaskChecked, callbacks) => {
   const taskContainer = document.createElement("div");
   taskContainer.classList.add("task-container");
 
-  const { text, textContainer } = createTaskText(taskText);
+  const { text, textContainer } = createTaskText(taskText, isTaskChecked);
   taskContainer.appendChild(
     createCheckbox(taskId, isTaskChecked, callbacks.checkUncheckTask, text)
   );
@@ -35,12 +35,15 @@ const createCheckbox = (taskId, isTaskChecked, checkUncheckTask, text) => {
   return checkboxContainer;
 };
 
-const createTaskText = (taskText) => {
+const createTaskText = (taskText, isTaskChecked) => {
   const textContainer = document.createElement("div");
   textContainer.classList.add("task-txt-container");
 
   const text = document.createElement("p");
   text.classList.add("task-txt");
+  if (isTaskChecked) {
+    text.classList.add("done-task-txt");
+  }
   text.innerHTML = taskText;
 
   textContainer.appendChild(text);

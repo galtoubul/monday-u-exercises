@@ -23,6 +23,8 @@ class TasksView {
       this.addTasksToView(tasks);
       if (tasksLeft) {
         this.updateTasksLeft(tasksLeft);
+      } else {
+        this.showFinishedAll();
       }
     } else {
       this.showFinishedAll();
@@ -51,7 +53,17 @@ class TasksView {
 
   onCheckUncheckTask(taskTxtElem, tasksLeft) {
     taskTxtElem.classList.toggle("done-task-txt");
-    this.updateTasksLeft(tasksLeft);
+    if (tasksLeft) {
+      this.updateTasksLeft(tasksLeft);
+      this.hideFinishedAll();
+    } else {
+      this.showFinishedAll();
+    }
+  }
+
+  checkTasksById(checkedTaskId) {
+    const taskTxtElem = document.querySelector(`#task-txt-${checkedTaskId}`);
+    taskTxtElem.classList.toggle("done-task-txt");
   }
 
   // Add task will be clickable only for a non empty/"only spaces" task

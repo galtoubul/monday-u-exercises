@@ -15,10 +15,16 @@ async function addTask(req, res) {
   res.status(200).json({ addedTasks, tasksLeft });
 }
 
-async function deleteTask(req, res) {
+async function deleteTask(req, res, next) {
   const taskId = Number.parseInt(req?.params?.id);
-  const { deletedTask, tasksLeft } = await deleteTaskService(taskId);
-  res.status(200).json({ deletedTask, tasksLeft });
+  try {
+    const { deletedTask, tasksLeft } = await deleteTaskService(taskId);
+    res.status(200).json({ deletedTask, tasksLeft });
+  } catch (err) {
+    const error = Error(err);
+    error.statusCode = 400;
+    next(error);
+  }
 }
 
 async function clearAll(req, res) {
@@ -26,14 +32,20 @@ async function clearAll(req, res) {
   res.status(200).json({ deletedTasks, tasksLeft });
 }
 
-async function checkUncheckTask(req, res) {
+async function checkUncheckTask(req, res, next) {
   const taskId = Number.parseInt(req?.params?.id);
   const checked = req?.body?.data?.checked;
-  const { updatedTask, tasksLeft } = await checkUncheckTaskService(
-    taskId,
-    checked
-  );
-  res.status(200).json({ updatedTask, tasksLeft });
+  try {
+    const { updatedTask, tasksLeft } = await checkUncheckTaskService(
+      taskId,
+      checked
+    );
+    res.status(200).json({ updatedTask, tasksLeft });
+  } catch (err) {
+    const error = Error(err);
+    error.statusCode = 400;
+    next(error);
+  }
 }
 
 export { getTasks, deleteTask, addTask, clearAll, checkUncheckTask };
