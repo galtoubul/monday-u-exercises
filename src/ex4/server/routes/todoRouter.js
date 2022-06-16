@@ -6,13 +6,19 @@ import {
   clearAll,
   checkUncheckTask,
 } from "../controllers/todoController.js";
+import {
+  validateSchema,
+  addedTaskSchema,
+  taskIdSchema,
+  updateTaskSchema,
+} from "../middlewares/validation.js";
 
 const todoRouter = express.Router();
 
 todoRouter.get("/", getTasks);
-todoRouter.post("/", addTask);
+todoRouter.post("/", validateSchema(addedTaskSchema), addTask);
 todoRouter.delete("/all", clearAll);
-todoRouter.delete("/:id", deleteTask);
-todoRouter.patch("/:id", checkUncheckTask);
+todoRouter.delete("/:id", validateSchema(taskIdSchema), deleteTask);
+todoRouter.patch("/:id", validateSchema(updateTaskSchema), checkUncheckTask);
 
 export { todoRouter };
