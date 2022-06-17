@@ -68,7 +68,6 @@ class TasksController {
     );
     this.tasksView.onCheckUncheckTask(taskTxtElem, res.tasksLeft);
     const doneTime = "doneTime" in res ? res.doneTime : null;
-    console.log(res);
     this.tasksView.updateDoneTimeStamp(textContainer, doneTime);
   }
 
