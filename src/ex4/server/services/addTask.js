@@ -9,7 +9,6 @@ async function addTask(task) {
     addedTasksObjs.push({ id, itemName: addedTask, checked: false });
   }
   const tasksLeft = await storage.getTasksLeftNum();
-  console.log(tasksLeft)
   return { addedTasks: addedTasksObjs, tasksLeft };
 }
 

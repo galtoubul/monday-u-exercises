@@ -1,22 +1,17 @@
-import { readTasksFile, writeTasksFile, calcTasksLeft } from "./utils.js";
+import { storage } from "./storage.js";
 
 async function deleteTask(id) {
-  const tasks = await readTasksFile();
-  const index = tasks.findIndex((task) => task.id === id);
-  if (index === -1) {
+  const tasksDeletedNum = await storage.deleteTask(id);
+  if (!tasksDeletedNum) {
     throw new Error("The task id is not a task id of an existing task");
   }
-  const deletedTask = tasks[index];
-  tasks.splice(index, 1);
-  let tasksLeft = calcTasksLeft(tasks);
-  await writeTasksFile(tasks);
-  return { deletedTask, tasksLeft };
+  let tasksLeft = await storage.getTasksLeftNum();
+  return { tasksDeletedNum, tasksLeft };
 }
 
 async function clearAll(id) {
-  const deletedTasks = await readTasksFile();
-  await writeTasksFile([]);
-  return { deletedTasks, tasksLeft: 0 };
+  await storage.clearAll();
+  return { tasksLeft: 0 };
 }
 
 export { deleteTask, clearAll };

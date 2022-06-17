@@ -13,6 +13,14 @@ class StorageService {
   async getTasksLeftNum() {
     return await Item.count({ where: { checked: false } });
   }
+
+  async deleteTask(id) {
+    return await Item.destroy({ where: { id } });
+  }
+  
+  async clearAll() {
+    return await Item.destroy({ truncate: true });
+  }
   //   getPlayers = () => Player.findAll();
   //   getPlayer = async (player_id) => {
   //     return await Player.findOne({ where: { player_id } });
