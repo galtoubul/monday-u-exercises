@@ -17,6 +17,7 @@ class TaskManagerClient {
     const data = { text };
     try {
       const res = await axios.post(this.endPoint, { data });
+      console.log(res.data);
       return res.data;
     } catch (err) {
       console.error(`An error occured: ${err}`);

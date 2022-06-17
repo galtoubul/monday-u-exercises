@@ -13,7 +13,7 @@ class TasksView {
 
     tasks.forEach((task) => {
       this.tasksList.appendChild(
-        createTask(task.id, task.text, task.checked, this.callbacks)
+        createTask(task.id, task.itemName, task.checked, this.callbacks)
       );
     });
   }

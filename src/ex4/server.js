@@ -16,7 +16,7 @@ app.use(favicon(join(__dirname, "dist", "images", "favicon.ico")));
 
 app.use(express.json());
 app.use(cors());
-app.use(logger);
+// app.use(logger);
 
 app.use("/dist", express.static("dist"));
 
