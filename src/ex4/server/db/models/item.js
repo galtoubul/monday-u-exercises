@@ -7,9 +7,10 @@ const Item = sequelize.define(
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
     },
     itemName: Sequelize.STRING,
+    checked: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false },
   },
   { freezeTableName: true }
 );

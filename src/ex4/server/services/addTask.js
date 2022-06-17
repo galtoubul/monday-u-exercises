@@ -16,9 +16,10 @@ async function createTasks(task) {
   const isCsvNums = /^(\d+\s*,\s*)*\s*\d+\s*$/.test(task);
   if (isCsvNums) {
     const pokemonIds = task.replaceAll(" ", "").split(",");
-    let pokemonTasks = pokemonIds.map(
-      async (id) => await getPokemonTaskText(id)
-    );
+    const pokemonTasks = [];
+    for (let pokemonId of pokemonIds) {
+      pokemonTasks.push(await getPokemonTaskText(pokemonId));
+    }
     return pokemonTasks;
   } else {
     return [task];

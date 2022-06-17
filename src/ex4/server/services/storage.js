@@ -10,34 +10,21 @@ class StorageService {
     return addedTask.toJSON().id;
   }
 
-  async getTasksLeftNum() {
-    return await Item.count({ where: { checked: false } });
-  }
-
   async deleteTask(id) {
     return await Item.destroy({ where: { id } });
   }
-  
+
   async clearAll() {
     return await Item.destroy({ truncate: true });
   }
-  //   getPlayers = () => Player.findAll();
-  //   getPlayer = async (player_id) => {
-  //     return await Player.findOne({ where: { player_id } });
-  //     //TODO 1: Use Player sequelize model to retrieve the specific player
-  //   };
-  //   createPlayer = async (player) => {
-  //     //TODO 2: Use Player sequelize model to create a player
-  //     await Player.create(player);
-  //   };
-  //   createSalary = async (salary) => {
-  //     await Salary.create(salary);
-  //   };
-  //   getSalary = async (salary_id) => {
-  //     // return await Salary.findOne({ where: { id: salary_id } });
-  //     return await Salary.findByPk(salary_id, { include: Player });
-  //     //TODO 5: Use Salary sequelize model to get salary
-  //   };
+
+  async updateTask(id, updatedKeysValues) {
+    return Item.update(updatedKeysValues, { where: { id } });
+  }
+
+  async getTasksLeftNum() {
+    return await Item.count({ where: { checked: false } });
+  }
 }
 
 const storage = new StorageService();
