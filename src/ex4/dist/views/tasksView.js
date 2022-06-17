@@ -1,4 +1,5 @@
 const validTask = "valid-task-btn";
+const doneTime = "done-time-container";
 
 class TasksView {
   constructor(callbacks) {
@@ -83,6 +84,31 @@ class TasksView {
   updateTasksLeft(tasksLeftNum) {
     const tasksLeftElem = document.querySelector(".tasks-left-number");
     tasksLeftElem.innerText = tasksLeftNum;
+  }
+
+  updateDoneTimeStamp(textContainer, doneTime) {
+    if (doneTime) {
+      textContainer.appendChild(this.createDoneTimeStamp(doneTime));
+    } else {
+      this.removeDoneTimeStamp(textContainer);
+    }
+  }
+
+  createDoneTimeStamp(doneTime) {
+    const doneTimeContainer = document.createElement("div");
+    doneTimeContainer.classList.add(doneTime);
+    const doneTimetext = document.createElement("p");
+    doneTimetext.innerText = `Completed at: ${doneTime}`;
+    doneTimeContainer.appendChild(doneTimetext);
+    return doneTimeContainer;
+  }
+
+  removeDoneTimeStamp(textContainer) {
+    // The done timestamp is appended as a last child only
+    const lastChild = textContainer.lastChild;
+    if (lastChild.classList.contains(doneTime)) {
+      textContainer.removeChild(lastChild);
+    }
   }
 
   hideFinishedAll() {

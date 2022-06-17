@@ -137,6 +137,11 @@ body {
   width: 90%;
 }
 
+.done-time-container {
+  color: rgba(10, 25, 48, 0.3);
+  font-size: 14px;
+}
+
 /* ------- done task animation ------- */
 
 @keyframes strike {

@@ -4,8 +4,18 @@ class TasksController {
     this.tasksView = new TasksView({
       deleteTask: (taskContainer, taskId) =>
         this.deleteTask(taskContainer, taskId),
-      checkUncheckTask: (taskTxtElem, taskId, newCheckedStatus) =>
-        this.checkUncheckTask(taskTxtElem, taskId, newCheckedStatus),
+      checkUncheckTask: (
+        textContainer,
+        taskTxtElem,
+        taskId,
+        newCheckedStatus
+      ) =>
+        this.checkUncheckTask(
+          textContainer,
+          taskTxtElem,
+          taskId,
+          newCheckedStatus
+        ),
     });
     this.addTaskInput = document.querySelector(".add-task-input");
     this.addTaskBtn = document.querySelector(".add-task-btn");
@@ -51,12 +61,15 @@ class TasksController {
     this.tasksView.onClearAll();
   }
 
-  async checkUncheckTask(taskTxtElem, taskId, newCheckedStatus) {
-    const { tasksLeft } = await this.taskManagerClient.checkUncheckTask(
+  async checkUncheckTask(textContainer, taskTxtElem, taskId, newCheckedStatus) {
+    const res = await this.taskManagerClient.checkUncheckTask(
       taskId,
       newCheckedStatus
     );
-    this.tasksView.onCheckUncheckTask(taskTxtElem, tasksLeft);
+    this.tasksView.onCheckUncheckTask(taskTxtElem, res.tasksLeft);
+    const doneTime = "doneTime" in res ? res.doneTime : null;
+    console.log(res);
+    this.tasksView.updateDoneTimeStamp(textContainer, doneTime);
   }
 
   isValidTask(task) {

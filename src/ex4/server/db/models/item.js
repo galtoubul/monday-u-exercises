@@ -11,6 +11,7 @@ const Item = sequelize.define(
     },
     itemName: Sequelize.STRING,
     checked: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false },
+    doneTime: { type: Sequelize.DATE },
   },
   { freezeTableName: true }
 );

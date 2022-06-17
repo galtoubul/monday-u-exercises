@@ -36,11 +36,11 @@ async function checkUncheckTask(req, res, next) {
   const taskId = Number.parseInt(req?.params?.id);
   const checked = req?.body?.data?.checked;
   try {
-    const { tasksLeft } = await checkUncheckTaskService(
+    const { tasksLeft, doneTime } = await checkUncheckTaskService(
       taskId,
       checked
     );
-    res.status(200).json({ tasksLeft });
+    res.status(200).json({ tasksLeft, doneTime });
   } catch (err) {
     const error = Error(err);
     error.statusCode = 400;

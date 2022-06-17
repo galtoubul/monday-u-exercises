@@ -4,8 +4,15 @@ const createTask = (taskId, taskText, isTaskChecked, callbacks) => {
 
   const { text, textContainer } = createTaskText(taskText, isTaskChecked);
   taskContainer.appendChild(
-    createCheckbox(taskId, isTaskChecked, callbacks.checkUncheckTask, text)
+    createCheckbox(
+      taskId,
+      isTaskChecked,
+      callbacks.checkUncheckTask,
+      text,
+      textContainer
+    )
   );
+  textContainer.appendChild(text);
   taskContainer.appendChild(textContainer);
   taskContainer.appendChild(
     createDeleteButton(taskContainer, taskId, callbacks.deleteTask)
@@ -14,7 +21,13 @@ const createTask = (taskId, taskText, isTaskChecked, callbacks) => {
   return taskContainer;
 };
 
-const createCheckbox = (taskId, isTaskChecked, checkUncheckTask, text) => {
+const createCheckbox = (
+  taskId,
+  isTaskChecked,
+  checkUncheckTask,
+  text,
+  textContainer
+) => {
   const checkboxContainer = document.createElement("div");
   checkboxContainer.classList.add("task-checkbox");
 
@@ -24,7 +37,7 @@ const createCheckbox = (taskId, isTaskChecked, checkUncheckTask, text) => {
   input.checked = isTaskChecked;
   input.addEventListener("click", (_) => {
     const newCheckedStatus = input.checked;
-    checkUncheckTask(text, taskId, newCheckedStatus);
+    checkUncheckTask(textContainer, text, taskId, newCheckedStatus);
   });
 
   const label = document.createElement("label");
