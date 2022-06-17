@@ -1,4 +1,4 @@
-const createTask = (taskId, taskText, isTaskChecked, callbacks) => {
+const createTask = (taskId, taskText, isTaskChecked, doneTime, callbacks) => {
   const taskContainer = document.createElement("div");
   taskContainer.classList.add("task-container");
 
@@ -13,6 +13,9 @@ const createTask = (taskId, taskText, isTaskChecked, callbacks) => {
     )
   );
   textContainer.appendChild(text);
+  if (doneTime) {
+    textContainer.appendChild(createDoneTimeStamp(doneTime));
+  }
   taskContainer.appendChild(textContainer);
   taskContainer.appendChild(
     createDeleteButton(taskContainer, taskId, callbacks.deleteTask)
@@ -73,4 +76,13 @@ const createDeleteButton = (taskContainer, taskId, deleteTask) => {
   button.appendChild(image);
   button.addEventListener("click", (_) => deleteTask(taskContainer, taskId));
   return button;
+};
+
+const createDoneTimeStamp = (doneTime) => {
+  const doneTimeContainer = document.createElement("div");
+  doneTimeContainer.classList.add(doneTimeClass);
+  const doneTimetext = document.createElement("p");
+  doneTimetext.innerText = `Completed at: ${doneTime}`;
+  doneTimeContainer.appendChild(doneTimetext);
+  return doneTimeContainer;
 };

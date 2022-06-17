@@ -9,5 +9,6 @@ export const sequelize = new Sequelize(
   {
     host: config[env]["host"],
     dialect: config[env]["dialect"],
+    logQueryParameters: true,
   }
 );
