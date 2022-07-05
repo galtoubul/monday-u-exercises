@@ -12,7 +12,6 @@ const app = express();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-app.use(favicon(join(__dirname, "dist", "images", "favicon.ico")));
 
 app.use(express.json());
 app.use(cors());
