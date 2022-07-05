@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./AddTaskInput.css";
+import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
@@ -62,6 +63,10 @@ const AddTaskInput = ({ handleAddTask }) => {
       />
     </div>
   );
+};
+
+AddTaskInput.propTypes = {
+  handleAddTask: PropTypes.func,
 };
 
 export default AddTaskInput;

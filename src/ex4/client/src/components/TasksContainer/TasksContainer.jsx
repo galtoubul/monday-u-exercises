@@ -1,5 +1,6 @@
 import React, { useEffect, useCallback } from "react";
 import "./TasksContainer.css";
+import PropTypes from "prop-types";
 import AddTaskInput from "../AddTaskInput/AddTaskInput";
 import FinishedAllAnimation from "../FinishedAllAnimation/FinishedAllAnimation";
 import Task from "../Task/Task";
@@ -42,6 +43,18 @@ const TasksContainer = ({ tasks, setTasks, tasksLeft, setTasksLeft }) => {
       {tasksLeft ? null : <FinishedAllAnimation />}
     </div>
   );
+};
+
+TasksContainer.propTypes = {
+  tasks: PropTypes.array,
+  setTasks: PropTypes.func,
+  tasksLeft: PropTypes.number,
+  setTasksLeft: PropTypes.func,
+};
+
+TasksContainer.defaultProps = {
+  tasks: [],
+  tasksLeft: 0,
 };
 
 export default TasksContainer;

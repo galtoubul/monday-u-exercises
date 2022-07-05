@@ -1,5 +1,6 @@
 import React, { forwardRef } from "react";
 import "./TaskText.css";
+import PropTypes from "prop-types";
 import DoneTimeStamp from "./DoneTimeStamp/DoneTimeStamp";
 
 const TaskText = forwardRef(({ taskText, checked, doneTime }, ref) => {
@@ -16,5 +17,11 @@ const TaskText = forwardRef(({ taskText, checked, doneTime }, ref) => {
     </div>
   );
 });
+
+TaskText.propTypes = {
+  taskText: PropTypes.string,
+  checked: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
+  doneTime: PropTypes.string,
+};
 
 export default TaskText;

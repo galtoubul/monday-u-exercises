@@ -3,15 +3,14 @@ import "./TodoListContainer.css";
 import Title from "../Title/Title";
 import TasksContainer from "../TasksContainer/TasksContainer";
 import Footer from "../Footer/Footer";
-import { clearAll as  clearAllService} from "../../services/taskManagerClient";
-
+import { clearAll as clearAllService } from "../../services/taskManagerClient";
 
 const TodoListContainer = () => {
   const [tasks, setTasks] = useState([]);
   const [tasksLeft, setTasksLeft] = useState(0);
 
   const handleClearAll = async () => {
-    await clearAllService()
+    await clearAllService();
     setTasks([]);
     setTasksLeft(0);
   };

@@ -1,5 +1,6 @@
 import React from "react";
 import "./Footer.css";
+import PropTypes from "prop-types";
 
 const Footer = ({ uncompletedTasksLeft, handleClearAll }) => {
   return (
@@ -12,6 +13,11 @@ const Footer = ({ uncompletedTasksLeft, handleClearAll }) => {
       </button>
     </div>
   );
+};
+
+Footer.propTypes = {
+  uncompletedTasksLeft: PropTypes.number,
+  handleClearAll: PropTypes.func,
 };
 
 export default Footer;

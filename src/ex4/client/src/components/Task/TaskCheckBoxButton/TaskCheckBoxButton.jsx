@@ -1,5 +1,6 @@
 import React, { forwardRef } from "react";
 import "./TaskCheckBoxButton.css";
+import PropTypes from "prop-types";
 
 const TaskCheckBoxButton = forwardRef(
   ({ taskId, checked, handleTaskToggle }, ref) => {
@@ -17,5 +18,11 @@ const TaskCheckBoxButton = forwardRef(
     );
   }
 );
+
+TaskCheckBoxButton.propTypes = {
+  taskId: PropTypes.number,
+  checked: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
+  handleTaskToggle: PropTypes.func,
+};
 
 export default TaskCheckBoxButton;

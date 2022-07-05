@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import "./Task.css";
+import PropTypes from "prop-types";
 import TaskCheckboxButton from "./TaskCheckBoxButton/TaskCheckBoxButton";
 import TaskText from "./TaskText/TaskText";
 import TaskTrashButton from "./TaskTrashButton/TaskTrashButton";
@@ -50,6 +51,24 @@ const Task = ({ task, tasks, setTasks, setTasksLeft }) => {
       <TaskTrashButton handleTaskDelete={handleTaskDelete} />
     </div>
   );
+};
+
+Task.propTypes = {
+  task: PropTypes.shape({
+    id: PropTypes.number,
+    itemName: PropTypes.string,
+    checked: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
+    doneTime: PropTypes.string,
+  }),
+  tasks: PropTypes.array,
+  setTasks: PropTypes.func,
+  tasksLeft: PropTypes.number,
+  setTasksLeft: PropTypes.func,
+};
+
+Task.defaultProps = {
+  tasks: [],
+  tasksLeft: 0,
 };
 
 export default Task;

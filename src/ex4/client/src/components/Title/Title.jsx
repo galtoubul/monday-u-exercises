@@ -1,5 +1,6 @@
 import React from "react";
 import "./Title.css";
+import PropTypes from "prop-types";
 
 const Title = ({ title }) => {
   return (
@@ -7,6 +8,14 @@ const Title = ({ title }) => {
       <h1 className="app-title">{title}</h1>
     </div>
   );
+};
+
+Title.propTypes = {
+  title: PropTypes.string,
+};
+
+Title.defaultProps = {
+  title: "",
 };
 
 export default Title;
