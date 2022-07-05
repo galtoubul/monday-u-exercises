@@ -37,7 +37,6 @@ class StorageService {
   getCurrTime() {
     let now = new Date().getTime();
     now += 3 * 60 * 60 * 1000; // add 3 hours to match to Israel Time Zone
-    // return new Date(now)
     return new Date(now);
   }
 

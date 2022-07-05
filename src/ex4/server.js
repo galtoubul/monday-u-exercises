@@ -18,8 +18,6 @@ app.use(express.json());
 app.use(cors());
 // app.use(logger);
 
-app.use("/dist", express.static("dist"));
-
 app.use("/todo", todoRouter);
 
 app.listen(port);

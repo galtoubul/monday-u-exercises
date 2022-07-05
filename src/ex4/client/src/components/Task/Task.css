@@ -1,0 +1,13 @@
+.task-container {
+  /* background-color: blueviolet; */
+  border-bottom: 1px solid black;
+  width: 100%;
+  min-height: 69px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.task-container:hover {
+  background-color: lightgray;
+}

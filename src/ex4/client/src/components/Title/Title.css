@@ -1,0 +1,15 @@
+.title-container {
+  /* background-color: yellow;
+    border: 1px solid pink; */
+  height: 15%;
+  width: 90%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.app-title {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 28px;
+}
