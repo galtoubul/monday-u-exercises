@@ -3,9 +3,9 @@ import "./TaskTrashButton.css";
 import PropTypes from "prop-types";
 import { ReactComponent as TrashIcon } from "./images/delete_icon.svg";
 
-const TaskTrashButton = ({ handleTaskDelete }) => {
+const TaskTrashButton = ({ handleTaskDelete, taskId }) => {
   return (
-    <button className="trash" onClick={handleTaskDelete}>
+    <button className="trash" onClick={() => handleTaskDelete(taskId)}>
       <TrashIcon />
     </button>
   );

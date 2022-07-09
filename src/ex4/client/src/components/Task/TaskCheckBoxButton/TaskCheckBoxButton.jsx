@@ -3,14 +3,14 @@ import "./TaskCheckBoxButton.css";
 import PropTypes from "prop-types";
 
 const TaskCheckBoxButton = forwardRef(
-  ({ taskId, checked, handleTaskToggle }, ref) => {
+  ({ taskId, checked, handleToggle }, ref) => {
     return (
       <div className="task-checkbox">
         <input
           type="checkbox"
           id={taskId}
           ref={ref}
-          onChange={handleTaskToggle}
+          onChange={() => handleToggle(taskId, ref.current.checked)}
           checked={checked}
         />
         <label htmlFor={taskId}></label>
@@ -22,7 +22,7 @@ const TaskCheckBoxButton = forwardRef(
 TaskCheckBoxButton.propTypes = {
   taskId: PropTypes.number,
   checked: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
-  handleTaskToggle: PropTypes.func,
+  toggleAction: PropTypes.func,
 };
 
 export default TaskCheckBoxButton;
