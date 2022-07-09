@@ -22,14 +22,4 @@ async function writeTasksFile(content) {
   }
 }
 
-function calcTasksLeft(tasks) {
-  return !tasks.length
-    ? 0
-    : tasks.reduce(
-        (currTasksLeft, task) =>
-          !task.checked ? currTasksLeft + 1 : currTasksLeft,
-        0
-      );
-}
-
-export { readTasksFile, writeTasksFile, calcTasksLeft };
+export { readTasksFile, writeTasksFile };

@@ -2,20 +2,20 @@ import actionTypes from "../actions/constants";
 
 const tasksReducer = (tasks = [], action) => {
   switch (action.type) {
-    case actionTypes.GET: {
+    case actionTypes.tasks.GET: {
       return [...tasks, ...action.tasks];
     }
-    case actionTypes.ADD: {
+    case actionTypes.tasks.ADD: {
       const ret = [...tasks, ...action.addedTasks];
       return ret;
     }
-    case actionTypes.DELETE: {
+    case actionTypes.tasks.DELETE: {
       return [...tasks].filter((task) => task.id !== action.taskId);
     }
-    case actionTypes.CLEAR_ALL: {
+    case actionTypes.tasks.CLEAR_ALL: {
       return [];
     }
-    case actionTypes.TOGGLE: {
+    case actionTypes.tasks.TOGGLE: {
       return [...tasks].map((task) =>
         task.id !== action.taskId
           ? task

@@ -4,11 +4,11 @@ import allReducers from "./reducers";
 
 const preloadedState = {
   tasks: [],
-  tasksLeft: 0,
+  isLoading: true,
 };
 
 export const store = configureStore({
   reducer: allReducers,
   middleware: [thunkMiddleware],
-  preloadedState,
+  preloadedState
 });

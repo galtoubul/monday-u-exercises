@@ -8,8 +8,7 @@ async function addTask(task) {
     const id = await storage.addTask(addedTask);
     addedTasksObjs.push({ id, itemName: addedTask, checked: false });
   }
-  const tasksLeft = await storage.getTasksLeftNum();
-  return { addedTasks: addedTasksObjs, tasksLeft };
+  return { addedTasks: addedTasksObjs };
 }
 
 async function createTasks(task) {

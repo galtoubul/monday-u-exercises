@@ -7,8 +7,7 @@ async function checkUncheckTask(id, checked) {
   if (!updatedTasksNum) {
     throw new Error("The task id is not a task id of an existing task");
   }
-  const tasksLeft = await storage.getTasksLeftNum();
-  return { tasksLeft, doneTime: updatedKeysValues?.doneTime };
+  return { doneTime: updatedKeysValues?.doneTime };
 }
 
 export { checkUncheckTask };

@@ -1,10 +1,10 @@
 import tasks from "./tasks";
-import tasksLeft from "./tasksLeft";
+import isLoading from "./loading";
 import { combineReducers } from "redux";
 
 const allReducers = combineReducers({
   tasks,
-  tasksLeft,
+  isLoading,
 });
 
 export default allReducers;

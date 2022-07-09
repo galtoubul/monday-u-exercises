@@ -1,13 +1,16 @@
 const actions = {
   // Tasks actions types
-  GET: "GET",
-  ADD: "ADD",
-  DELETE: "DELETE",
-  CLEAR_ALL: "CLEAR_ALL",
-  TOGGLE: "TOGGLE",
+  tasks: {
+    GET: "GET",
+    ADD: "ADD",
+    DELETE: "DELETE",
+    CLEAR_ALL: "CLEAR_ALL",
+    TOGGLE: "TOGGLE_STATUS",
+  },
 
-  // TasksLeft actions types
-  SET: "SET",
+  loading: {
+    TOGGLE: "TOGGLE_LOADING",
+  },
 };
 
 export default actions;

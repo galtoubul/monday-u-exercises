@@ -4,9 +4,9 @@ import PropTypes from "prop-types";
 import FinishedAllAnimation from "../FinishedAllAnimation/FinishedAllAnimation";
 import Task from "../Task/Task";
 import AddTaskInputConnector from "../AddTaskInput/AddTaskInputConnector";
+import Loader from "../Loader/Loader";
 
-const TasksContainer = ({ tasks, fetchTasks, tasksLeft }) => {
-
+const TasksContainer = ({ tasks, fetchTasks, tasksLeft, isLoading }) => {
   useEffect(() => {
     fetchTasks();
   }, [fetchTasks]);
@@ -19,7 +19,7 @@ const TasksContainer = ({ tasks, fetchTasks, tasksLeft }) => {
           <Task key={task.id} task={task} />
         ))}
       </div>
-      {tasksLeft ? null : <FinishedAllAnimation />}
+      {isLoading ? <Loader /> : tasksLeft ? null : <FinishedAllAnimation />}
     </div>
   );
 };

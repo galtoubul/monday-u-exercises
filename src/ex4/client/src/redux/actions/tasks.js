@@ -6,29 +6,29 @@ import {
   deleteTask as deleteTaskService,
   clearAll as clearAllService,
 } from "../../services/taskManagerClient";
-import { setTasksLeftAction } from "../actions/tasksLeft";
+import { toggleLoadingAction } from "./loading";
 
 const getTasks = (tasks) => ({
-  type: tasksTypes.GET,
+  type: tasksTypes.tasks.GET,
   tasks,
 });
 
 const addTask = (addedTasks) => ({
-  type: tasksTypes.ADD,
+  type: tasksTypes.tasks.ADD,
   addedTasks,
 });
 
 const deleteTask = (taskId) => ({
-  type: tasksTypes.DELETE,
+  type: tasksTypes.tasks.DELETE,
   taskId,
 });
 
 const clearAllTasks = () => ({
-  type: tasksTypes.CLEAR_ALL,
+  type: tasksTypes.tasks.CLEAR_ALL,
 });
 
 const toggleTask = (taskId, checked, doneTime) => ({
-  type: tasksTypes.TOGGLE,
+  type: tasksTypes.tasks.TOGGLE,
   taskId,
   checked,
   doneTime,
@@ -36,25 +36,23 @@ const toggleTask = (taskId, checked, doneTime) => ({
 
 export const getAction = () => {
   return async (dispatch) => {
-    const { tasks, tasksLeft } = await getTasksService();
+    const { tasks } = await getTasksService();
     dispatch(getTasks(tasks));
-    dispatch(setTasksLeftAction(tasksLeft));
+    dispatch(toggleLoadingAction());
   };
 };
 
 export const addAction = (task) => {
   return async (dispatch) => {
-    const { addedTasks, tasksLeft } = await addTaskService(task);
+    const { addedTasks } = await addTaskService(task);
     dispatch(addTask(addedTasks));
-    dispatch(setTasksLeftAction(tasksLeft));
   };
 };
 
 export const deleteAction = (taskId) => {
   return async (dispatch) => {
-    const { tasksLeft } = await deleteTaskService(taskId);
+    await deleteTaskService(taskId);
     dispatch(deleteTask(taskId));
-    dispatch(setTasksLeftAction(tasksLeft));
   };
 };
 
@@ -62,14 +60,12 @@ export const clearAllAction = () => {
   return async (dispatch) => {
     await clearAllService();
     dispatch(clearAllTasks());
-    dispatch(setTasksLeftAction(0));
   };
 };
 
 export const toggleAction = (taskId, checked) => {
   return async (dispatch) => {
-    const { tasksLeft, doneTime } = await toggleTaskService(taskId, checked);
+    const { doneTime } = await toggleTaskService(taskId, checked);
     dispatch(toggleTask(taskId, checked, doneTime));
-    dispatch(setTasksLeftAction(tasksLeft));
   };
 };
