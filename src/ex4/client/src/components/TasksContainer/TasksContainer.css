@@ -1,0 +1,21 @@
+.tasks-container {
+  /* background-color: red;
+    border: 1px solid black; */
+  height: 70%;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.new-tasks-container {
+  /* background-color: red;
+  border: 1px solid black; */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  overflow-y: auto;
+}

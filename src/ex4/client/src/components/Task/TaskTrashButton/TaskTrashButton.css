@@ -1,0 +1,11 @@
+.trash {
+  padding-right: 5px;
+  visibility: hidden;
+  border: none;
+  background-color: transparent;
+  width: 5%;
+}
+
+.task-container:hover .trash {
+  visibility: visible;
+}

@@ -1,0 +1,27 @@
+.todo-footer-container {
+  height: 15%;
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tasks-left {
+  color: rgba(10, 25, 48, 0.6);
+  font-size: 18px;
+}
+
+.clear-all {
+  justify-self: end;
+  width: 98px;
+  height: 39px;
+  border: none;
+  border-radius: 10px;
+  background-color: #0a1930;
+  color: white;
+  font-size: 16px;
+}
+
+.hide {
+  visibility: hidden;
+}
